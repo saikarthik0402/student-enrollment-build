@@ -14,11 +14,6 @@ if [[ -z "$GITHUB_USER" ]]  && [[ -z "$GITHUB_TOKEN" ]] ; then
     exit 1;
 fi
 
-#Removing the existing files
-rm -rf $APP_DIR/stripehandler/
-rm -rf $APP_DIR/student-enrollment-api-golang-/
-rm -rf $APP_DIR/studentenrollment/
-rm -rf $APP_DIR/student-enrollment-app-server/
 
 #Cloning the stripe-handler repository stripe-golang branch
 git -C $APP_DIR clone  --branch stripe-golang https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/stripehandler.git
@@ -49,14 +44,24 @@ docker build -t student-app-golang-image $APP_DIR/student-enrollment-api-golang-
 docker build -t stripe-handler $APP_DIR/stripehandler
 
 
+#Removing all the files
+rm -rf $APP_DIR/stripehandler/
+rm -rf $APP_DIR/student-enrollment-api-golang-/
+rm -rf $APP_DIR/studentenrollment/
+rm -rf $APP_DIR/student-enrollment-app-server/
+
 #Running Docker Compose
 echo "Running Docker Compose Up................................."
-docker compose -f $DOCKER_COMPOSE_FILE up
+docker compose -f $DOCKER_COMPOSE_FILE up --detach
 
-#Removing unncessary containers
-docker containers prune
 
-#Removing unnecessary images
-dokcer images prune
+#Sleeps for 2 minutes and then exits 
+sleep 2m
+
+#Removing all the unused contaniers
+docker contanier prune --force
+
+#Removing all the unused images
+docker image prune --force
 
 exit 0;
