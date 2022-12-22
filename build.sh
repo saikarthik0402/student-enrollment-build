@@ -53,4 +53,9 @@ rm -rf $APP_DIR/student-enrollment-app-server/
 #Running Docker Compose
 echo "Running Docker Compose Up................................."
 docker compose -f $DOCKER_COMPOSE_FILE up --detach
+
+#Removing all the unwanted images
+docker images prune -f
+
+
 exit 0;
