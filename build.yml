@@ -10,11 +10,7 @@ services:
      - ./build.env 
    command: sh -c
         "
-         apk add git &&
-         git --version &&
-         env && 
-         cat /home/app/build.sh &&
-         chmod +x /home/app/build.sh && 
+          chmod +x /home/app/build.sh && 
          ./home/app/build.sh
         "
   

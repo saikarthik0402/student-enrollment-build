@@ -14,6 +14,12 @@ if [[ -z "$GITHUB_USER" ]]  && [[ -z "$GITHUB_TOKEN" ]] ; then
     exit 1;
 fi
 
+#Removing the existing files
+rm -rf $APP_DIR/stripehandler/
+rm -rf $APP_DIR/student-enrollment-api-golang-/
+rm -rf $APP_DIR/studentenrollment/
+rm -rf $APP_DIR/student-enrollment-app-server/
+
 #Cloning the stripe-handler repository stripe-golang branch
 git -C $APP_DIR clone  --branch stripe-golang https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/stripehandler.git
 
@@ -21,10 +27,25 @@ git -C $APP_DIR clone  --branch stripe-golang https://$GITHUB_USER:$GITHUB_TOKEN
 git -C $APP_DIR clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/student-enrollment-api-golang-.git
 
 #Cloning the student-enrollment-app repository
-git -C $APP_DIR clone --branch  https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/studentenrollment.git
+git -C $APP_DIR clone --branch student-golang-app https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/studentenrollment.git
 
 #Cloning the student-enrollment-server-app
-git -C $APP_DIR clone --branch https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/student-enrollment-app-server.git
+git -C $APP_DIR clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/student-enrollment-app-server.git
+
+#lising dir for debuggind
+ls $APP_DIR
+
+{
+#Building and Copying the dist folder from student-enrollment-app-repo
+docker build -t student-enrollment-app-image $APP_DIR/studentenrollment
+echo "Done building student-enrollment-app-image..................."
+} ||
+{
+echo "Failed to build student-enrollment-app-image"
+exit 1;
+}
 
 
-#Copying the dist folder from student-enrollment-app-repo
+docker build -t student-enrollment-server-image $APP_DIR/student-enrollment-app-server
+
+
