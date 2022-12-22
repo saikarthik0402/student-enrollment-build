@@ -53,15 +53,4 @@ rm -rf $APP_DIR/student-enrollment-app-server/
 #Running Docker Compose
 echo "Running Docker Compose Up................................."
 docker compose -f $DOCKER_COMPOSE_FILE up --detach
-
-
-#Sleeps for 2 minutes and then exits 
-sleep 2m
-
-#Removing all the unused contaniers
-docker contanier prune --force
-
-#Removing all the unused images
-docker image prune --force
-
 exit 0;
