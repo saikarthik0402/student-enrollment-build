@@ -5,18 +5,16 @@ services:
    image: docker:latest
    volumes:
      - //var/run/docker.sock:/var/run/docker.sock
+     - ./build.sh:/home/app/build.sh
+   env_file:
+     - ./build.env 
    command: sh -c
         "
          apk add git &&
          git --version &&
-         rm -rf /home/app &&
-         mkdir /home/app &&
-         cd /home/app &&
-         export GITHUB_USER="saikarthik0402" &&
-         export GITHUB_TOKEN="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" &&
-         rm -rf stripehandler/ &&
-         rm -rf student-enrollment-api-golang-/ &&
-         git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/saikarthik0402/stripehandler.git  && 
-         git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/saikarthik0402/student-enrollment-api-golang-.git
+         env && 
+         cat /home/app/build.sh &&
+         chmod +x /home/app/build.sh && 
+         ./home/app/build.sh
         "
   
