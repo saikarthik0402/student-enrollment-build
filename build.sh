@@ -38,9 +38,12 @@ ls $APP_DIR
 set -e
 #Building and Copying the dist folder from student-enrollment-app-repo
 docker build -t student-enrollment-app-image $APP_DIR/studentenrollment
-echo "Done building student-enrollment-app-image..................."
 
-
+#Building  student-enrollment-app-server 
 docker build -t student-enrollment-server-image $APP_DIR/student-enrollment-app-server
 
+#Building enrollment-api-golang-image
+docker build -t student-enrollment-server-image $APP_DIR/student-enrollment-api-golang-
 
+#Building Stripe-Handler-golang
+docker build -t student-enrollment-server-image $APP_DIR/stripehandler
