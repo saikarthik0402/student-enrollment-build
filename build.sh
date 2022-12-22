@@ -35,15 +35,10 @@ git -C $APP_DIR clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik04
 #lising dir for debuggind
 ls $APP_DIR
 
-{
+set -e
 #Building and Copying the dist folder from student-enrollment-app-repo
 docker build -t student-enrollment-app-image $APP_DIR/studentenrollment
 echo "Done building student-enrollment-app-image..................."
-} ||
-{
-echo "Failed to build student-enrollment-app-image"
-exit 1;
-}
 
 
 docker build -t student-enrollment-server-image $APP_DIR/student-enrollment-app-server
