@@ -1,2 +1,30 @@
 #! /bin/sh
-echo "Hello World"
+APP_DIR="/home/app"
+
+#Install Git
+apk add git 
+
+#Check git Version
+GIT_VERSION=`git --version`
+echo "$GIT_VERSION"
+
+#Checks if the GITHUB secrets are found in env 
+if [[ -z "$GITHUB_USER" ]]  && [[ -z "$GITHUB_TOKEN" ]] ; then
+    echo "Github Credentials not found in environment variables"
+    exit 1;
+fi
+
+#Cloning the stripe-handler repository stripe-golang branch
+git -C $APP_DIR clone  --branch stripe-golang https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/stripehandler.git
+
+#Cloning the student-enrollment-api-golang- repository
+git -C $APP_DIR clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/student-enrollment-api-golang-.git
+
+#Cloning the student-enrollment-app repository
+git -C $APP_DIR clone --branch  https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/studentenrollment.git
+
+#Cloning the student-enrollment-server-app
+git -C $APP_DIR clone --branch https://$GITHUB_USER:$GITHUB_TOKEN@github.com/saikarthik0402/student-enrollment-app-server.git
+
+
+#Copying the dist folder from student-enrollment-app-repo
