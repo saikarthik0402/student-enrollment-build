@@ -6,6 +6,7 @@ services:
    volumes:
      - //var/run/docker.sock:/var/run/docker.sock
      - ./build.sh:/home/app/build.sh
+     - ./docker-file.yaml:/home/compose/docker-file.yaml
    env_file:
      - ./build.env 
    command: sh -c

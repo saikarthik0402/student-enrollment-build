@@ -1,0 +1,45 @@
+version: '1'
+services:
+
+  web:
+    image: student-enrollment-app-image:latest
+    ports:  
+      - 80:4200
+    depends_on:
+      - enrollment-api
+    networks :
+      - student-app-network
+
+  enrollment-api:
+      image: student-app-golang-image:latest
+      ports:
+        - 8080:8080
+      networks: 
+       - student-app-network
+      environment:
+       - DOMAIN=http://localhost:80 
+      depends_on:
+        - stripe-cli
+
+  stripehandler:
+    image: stripe-handler:latest
+    environment:
+     - API_URL=http://enrollment-api
+    networks:
+      - student-app-network
+
+  stripe-cli:
+   image: stripe/stripe-cli
+   container_name: stripe-cli
+   environment:
+    - STRIPE_API_KEY=sk_test_51M0N9jJy44knnKankE6f7lbsN7CfaROMhV4BUhu0MQ10PIuy8i7el6NF5pGLJnzFTA4f1o06M8kc1rVQiQE4uwDe00exfw3lLG
+    - STRIPE_DEVICE_NAME=docker-1
+   command: "listen --api-key STRIPE_API_KEY --device-name STRIPE_DEVICE_NAME --forward-to stripehandler:8081/webhooks"
+   depends_on: 
+      - stripehandler
+   networks:
+    - student-app-network 
+
+networks:
+  student-app-network:
+    driver: bridge

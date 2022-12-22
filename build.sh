@@ -37,13 +37,26 @@ ls $APP_DIR
 
 set -e
 #Building and Copying the dist folder from student-enrollment-app-repo
-docker build -t student-enrollment-app-image $APP_DIR/studentenrollment
+docker build -t student-enrollment-app-build-image $APP_DIR/studentenrollment
 
 #Building  student-enrollment-app-server 
-docker build -t student-enrollment-server-image $APP_DIR/student-enrollment-app-server
+docker build -t student-enrollment-app-image $APP_DIR/student-enrollment-app-server
 
 #Building enrollment-api-golang-image
-docker build -t student-enrollment-server-image $APP_DIR/student-enrollment-api-golang-
+docker build -t student-app-golang-image $APP_DIR/student-enrollment-api-golang-
 
 #Building Stripe-Handler-golang
-docker build -t student-enrollment-server-image $APP_DIR/stripehandler
+docker build -t stripe-handler $APP_DIR/stripehandler
+
+
+#Running Docker Compose
+echo "Running Docker Compose Up................................."
+docker compose -f $DOCKER_COMPOSE_FILE up
+
+#Removing unncessary containers
+docker containers prune
+
+#Removing unnecessary images
+dokcer images prune
+
+exit 0;
