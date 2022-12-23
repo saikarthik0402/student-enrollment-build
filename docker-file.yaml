@@ -17,7 +17,8 @@ services:
       networks: 
        - student-app-network
       environment:
-       - DOMAIN=http://localhost:80 
+       - DOMAIN=http://localhost:80
+       - SOCKET_SERVER=http://socket-server:8082/update/status 
       depends_on:
         - stripe-cli
 
@@ -25,6 +26,8 @@ services:
     image: stripe-handler:latest
     environment:
      - API_URL=http://enrollment-api
+    depends_on:
+      - socket-server
     networks:
       - student-app-network
 
@@ -39,6 +42,19 @@ services:
       - stripehandler
    networks:
     - student-app-network 
+
+  socket-server:
+    image: socket-server:latest
+    ports:
+     - 8082:8082
+    environment:
+      - PORT=8082
+      - ORIGIN=http://enrollment-api:8080
+      - SOCKET_TIMEOUT=5000
+      - SOCKET_CLIENT=http://localhost
+    networks:
+      - student-app-network
+
 
 networks:
   student-app-network:
