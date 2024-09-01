@@ -35,7 +35,7 @@ services:
    image: stripe/stripe-cli
    container_name: stripe-cli
    environment:
-    - STRIPE_API_KEY=sk_test_51M0N9jJy44knnKankE6f7lbsN7CfaROMhV4BUhu0MQ10PIuy8i7el6NF5pGLJnzFTA4f1o06M8kc1rVQiQE4uwDe00exfw3lLG
+    - STRIPE_API_KEY={stripe_api_key}
     - STRIPE_DEVICE_NAME=docker-1
    command: "listen --api-key STRIPE_API_KEY --device-name STRIPE_DEVICE_NAME --forward-to stripehandler:8081/webhooks"
    depends_on: 
